@@ -1,0 +1,37 @@
+#!/bin/tcsh
+set CPPOPTSF = cppopts
+set INCDIRSF = incdirs
+set LDIRSF = ldirs
+set CXXFNAME = cxxname
+
+set CXXNAME = "/usr/bin/g++"
+
+set OSNAME = `uname -s`
+
+if($OSNAME == "Darwin")then
+    set OSR  = `uname -r`
+    set PROC = `uname -p`
+    set MNAME = `machine`
+    if ($MNAME == "ppc7450") then
+    	set CPPOPTS = " -fast -mcpu=7450 -Wno-long-double "
+    else if($MNAME == "ppc970") then
+        set CPPOPTS = " -O3 -mcpu=G5 -mpowerpc-gfxopt -mpowerpc-gpopt -faltivec -Wno-long-double "
+    else
+	set MNAME = `uname -m`
+	set CPPOPTS = " -O3"
+    endif
+    set INCDIRS = " -I/sw/include "
+    set LDIRS = " -L/sw/lib "
+    set CXXNAME = "/usr/bin/gcc"
+else if($OSNAME == "Linux") then
+    set MNAME = `uname -m`
+    set CPPOPTS = " -O3 -mcpu=$MNAME "
+    set INCDIRS = ""
+    set LDIRS = ""
+endif   
+
+echo $CPPOPTS > $CPPOPTSF
+echo $INCDIRS > $INCDIRSF
+echo $LDIRS > $LDIRSF
+echo $CXXNAME > $CXXFNAME
+

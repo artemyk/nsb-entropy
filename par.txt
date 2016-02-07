@@ -1,0 +1,18 @@
+# Created by Octave 2.1.35, Mon Sep 08 17:41:07 2003 PDT <nemenman@sarek.itp.ucsb.edu>
+# name: ASize
+# type: scalar
+2
+# name: data
+# type: matrix
+# rows: 10
+# columns: 5
+ 0 1 0 0 1
+ 0 0 1 1 1
+ 1 1 1 1 0
+ 0 1 0 0 1
+ 1 0 0 1 1
+ 1 0 1 1 0
+ 0 0 0 1 1
+ 1 0 0 0 0
+ 0 0 0 1 1
+ 0 0 0 0 0

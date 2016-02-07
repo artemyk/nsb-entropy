@@ -1,0 +1,126 @@
+Version 1.14
+
+Differences from 1.13.
+In the version 1.11, there was a new bug introduced, which prevented execution of
+the code: the program would not have outputed anything. This bug has been fixed now.
+
+The program can now run OK with -c1 and -c2 switches. -c0 (default), which includes full
+nsb integration, does not work due to some incompatibility with the newer version of
+the GSL library (at least on my Mac OS X 10.8.4). I will correct this error in the next 
+release. For now, one can use the C++ version to count words in the data, and then the
+Octave/Matlab version to actually perform integration.
+
+***********************
+Version 1.13
+
+Differences from 1.11:
+
+1) Compiles with Apple's gcc 4.2.1 for Darwin 12.4.0, on x86_64
+2) R-wrapper nsb.entropy.R added written by Jean Hausser in 2008 
+   (took only 5 years to add it!)
+3) License changed to GPLv3.
+
+
+************************
+Version 1.11.
+
+Differences from 1.1:
+
+1) Compiles with Apple's gcc 4.0.1 for Darwin 8.7.0, PowerPC
+2) Compiles on i686 Linux-Debian
+3) Parameters for the command line option -c have changed, now allowing 
+  to either:
+  (0) do full NSB analysis;
+  (1) calculate frequency of occurence of frequencies of samples;
+  (2) calculate frequency of occurencies of samples.
+4) Bug corrected where  a nonzero probability caused the shifts to be 
+  set to 1.
+5) Various small bugs corrected.
+
+**************************
+
+Version 1.1
+
+DIFFERENCES from 1.0
+
+1) A new command line option
+  -rY/N
+has been added, which has the deafult value N. If r==N, the program
+executes as earlier. If r==Y, then the histogram of the occurences is
+partitioned into very high (substantial fraction, i.e., over 10% and
+more that a few thousands of all samples in each bin), high (more than
+about a hundred samples in each bin), and low (all other) occupancy
+bins. The NSB entropy for each set is calculated separately, and then
+the total entropy is evaluated using entropy's additivity (and the
+error on entropy, of course, has a component related to the
+imprecision of knowing the occupancy of each class). This option can
+be used to test for bias in the NSB estimator, since, for unbiased
+estimation, there should be no difference between direct and
+partitioned evaluation.
+
+
+2) Various errors that made the code crash have been removed.
+
+3) The code now supports keeping the necessary spline interpolators
+   for xi(beta) function in memory for more than one alphabet size so
+   that, in particular, -rY option can be used with faster execution
+   times.
+
+*********************************************
+Installation Instructions:
+
+
+Brief readme, assuming you are running OS X
+
+REQUIREMENTS
+
+This software routines require several things to be installed: 
+	gsl, gmp, octave, gnuplot (from fink), and gcc 3.3 (or higher)
+	(from apple)
+
+APPLE:
+
+To check which version you are running type
+
+foo% gcc --version
+
+If you are not running gcc 3.3, log in to
+http://developer.apple.com/index.html, and goto downloads, then
+developer tools, and download the August 2003 or later update to gcc,
+so that you are running gcc version 3.3 or later. A later version
+should work as well (at the time of the writing of this document, the
+latest gcc version is 4.0.1).
+
+If the only available version of gcc is 2.xx, uncomment the line 
+   #define GCC_2
+in the include/compiler.h file.
+
+FINK (http://fink.sourceforge.net/):
+
+(you might want to make sure your fink is up-to-date: 
+foo% fink selfupdate;fink update-all;apt-get update;apt-get upgrade;
+apt-get dist-upgrade;apt-get clean;apt-get autoclean;apt-get check )
+
+Required via fink are gsl, gmp, octave, gnuplot
+
+GSL and GMP are periodically "unstable" modules. This means you need to
+configure fink so that it has access to these modules; please see Fink
+documentation for instructions.
+
+
+INSTALL
+
+Assuming the software is in the directory nsb-entropy/, which is the
+current directory:
+
+
+  make
+  cd build
+  ./nsb-entropy -h
+
+
+USAGE
+
+Type
+  ./nsb-entropy -h
+to get the full description of program options.
