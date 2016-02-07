@@ -48,7 +48,7 @@ ENTRDATA::BxiKinterp::BxiKinterp(const double& K_in,
 
   // filling low range
   range = 1.1*low_var(ltr);
-  d_tr = range/npts;
+  d_tr = range/(npts-1);
   for(long i=0; i<npts;i++){
     x[i] = i*d_tr;
     tmpB = low_B(x[i]);
@@ -64,7 +64,7 @@ ENTRDATA::BxiKinterp::BxiKinterp(const double& K_in,
 
   // filling medium range
   range = (1.1*med_var(K) - 0.9*med_var(ltr));
-  d_tr = range/npts;
+  d_tr = range/(npts-1);
   x[0] = 0.9*med_var(ltr);
   for(long i=1; i<npts;i++){
     x[i] = x[i-1]+d_tr;
@@ -81,10 +81,13 @@ ENTRDATA::BxiKinterp::BxiKinterp(const double& K_in,
 
   // filling high range
   range = maxent - 0.9*high_var(K);
-  d_tr = range/npts;
+  d_tr = range/(npts-1);
   x[0] = 0.9*high_var(K);
   for(long i=1; i<npts;i++){
-    x[i] = x[i-1]+d_tr;
+    if (i==npts-1)
+      x[i] = maxent;  // necessary to avoid numerical errors
+    else
+      x[i] = x[i-1]+d_tr;
     tmpB = high_B(x[i]);
     y[i] = xi_KB(tmpB);
   }

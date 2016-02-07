@@ -61,6 +61,9 @@ namespace ENTRDATA{
       return maxent - K/(2*B);
     }
     double high_B(const double& var) const { // reverse x-form
+      if (maxent == var) {
+        return GSL_POSINF;
+      }
       return 0.5*K/(maxent-var);
     }
 
